@@ -1,5 +1,5 @@
-import CartesianPlane from "./CartesianPlane";
-import LabeledPlaneWrapper from "./LabeledPlaneWrapper";
+import CartesianPlane from "../plane/CartesianPlane";
+import LabeledPlaneWrapper from "../plane/LabeledPlaneWrapper";
 import { useState } from "react";
 
 function InputAndPlane({ width }) {
