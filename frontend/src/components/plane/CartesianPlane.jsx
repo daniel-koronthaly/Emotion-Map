@@ -1,14 +1,27 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Small component to render a blue point with smooth ease-in/out glow
-const BluePoint = ({ x, y, size = 5, glowColor = "rgba(0,0,255,0.6)" }) => {
+
+// Small component to render a point with smooth ease-in/out glow
+const Point = ({ x, y, size = 5, color = "#0000ff" }) => {
+  function hexToRgba(hex, alpha = 0.6) {
+    let sanitized = hex.replace("#", "");
+    if (sanitized.length === 3) {
+      // expand shorthand like "f00" => "ff0000"
+      sanitized = sanitized.split("").map(c => c + c).join("");
+    }
+    const r = parseInt(sanitized.slice(0, 2), 16);
+    const g = parseInt(sanitized.slice(2, 4), 16);
+    const b = parseInt(sanitized.slice(4, 6), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  const glowColor = hexToRgba(color, 0.6);
   return (
     <motion.circle
       cx={x}
       cy={y}
       r={size}
-      fill="blue"
+      fill={color}
       stroke={glowColor}
       strokeWidth={0}
       initial={{ r: 0, opacity: 0, strokeWidth: 0 }}
@@ -19,8 +32,7 @@ const BluePoint = ({ x, y, size = 5, glowColor = "rgba(0,0,255,0.6)" }) => {
   );
 };
 
-const CartesianPlane = ({ size = 400, initialPoint = { x: 0, y: 0 }, extraPoints = [] }) => {
-  const [point, setPoint] = useState(initialPoint);
+const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [] }) => {
   const [isDraggingRed, setIsDraggingRed] = useState(false);
   const svgRef = useRef(null);
 
@@ -94,7 +106,7 @@ const CartesianPlane = ({ size = 400, initialPoint = { x: 0, y: 0 }, extraPoints
           fill="red"
           r={5}
           animate={{ r: isDraggingRed ? 10 : 5 }}
-          transition={{ duration: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
           stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : ""}
           strokeWidth={isDraggingRed ? 15 : 0}
         />
@@ -103,40 +115,10 @@ const CartesianPlane = ({ size = 400, initialPoint = { x: 0, y: 0 }, extraPoints
         <AnimatePresence>
           {extraPoints.map((p, i) => {
             const { svgX: x, svgY: y } = cartesianToSvg(p.x, p.y);
-            return <BluePoint key={i} x={x} y={y} />;
+            return <Point key={i} x={x} y={y} />;
           })}
         </AnimatePresence>
       </svg>
-
-      {/* Inputs for main point */}
-      <div style={{ marginTop: "10px" }}>
-        <label>
-          X:{" "}
-          <input
-            type="number"
-            step="0.01"
-            value={point.x}
-            min={-1}
-            max={1}
-            onChange={(e) =>
-              setPoint((prev) => ({ ...prev, x: parseFloat(e.target.value) }))
-            }
-          />
-        </label>
-        <label style={{ marginLeft: "10px" }}>
-          Y:{" "}
-          <input
-            type="number"
-            step="0.01"
-            value={point.y}
-            min={-1}
-            max={1}
-            onChange={(e) =>
-              setPoint((prev) => ({ ...prev, y: parseFloat(e.target.value) }))
-            }
-          />
-        </label>
-      </div>
     </div>
   );
 };
