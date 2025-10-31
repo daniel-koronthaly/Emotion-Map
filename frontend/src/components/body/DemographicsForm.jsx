@@ -1,38 +1,5 @@
 import React, { useState } from "react";
-
-// Enum-like options
-const AgeOptions = [
-  "Under 18",
-  "18–24",
-  "25–34",
-  "35–44",
-  "45–54",
-  "55–64",
-  "65 or older",
-  "Prefer not to answer",
-];
-
-const SexualityOptions = [
-  "Asexual",
-  "Bisexual",
-  "Gay or Lesbian",
-  "Heterosexual / Straight",
-  "Pansexual",
-  "Prefer not to answer",
-];
-
-const GenderOptions = [
-  "Male",
-  "Female",
-  "Nonbinary / Gender diverse",
-  "Prefer not to answer",
-];
-
-const TransgenderOptions = [
-  "Yes",
-  "No",
-  "Prefer not to answer",
-];
+import { AgeOptions, GenderOptions, SexualityOptions, TransgenderOptions } from "../helpers/DemographicOptions";
 
 const DemographicsForm = ({ onSubmit }) => {
   const [age, setAge] = useState("Prefer not to answer");
@@ -75,7 +42,18 @@ const DemographicsForm = ({ onSubmit }) => {
       {renderRadioGroup("Transgender?", transgender, setTransgender, TransgenderOptions)}
       {renderRadioGroup("Sexuality", sexuality, setSexuality, SexualityOptions)}
 
-      <button type="submit" className="">
+      <button type="submit" className=""
+        style={{
+          backgroundColor: "#008192",
+          color: "white",
+          width: 200,
+          height: 40,
+          borderWidth: 0,
+          borderRadius: 15,
+          fontSize: "14px",
+          fontWeight: 600,
+          marginTop: "10px"
+        }}>
         Submit
       </button>
     </form>
