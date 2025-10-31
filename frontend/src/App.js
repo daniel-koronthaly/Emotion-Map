@@ -10,6 +10,7 @@ import { emotions, shuffle } from "./components/helpers/EmotionList";
 import { fakeData } from "./components/helpers/MockEmotionData";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
+import styles from "./styles/Theme.module.css"
 
 const useFakeDataForTestingPurposes = false
 
@@ -71,6 +72,11 @@ function App() {
         if (useFakeDataForTestingPurposes) {
             return
         }
+        if (isDemographicSubmitted) {
+            alert("You have already submitted the demographic form.");
+            setCurrentPage("MainPage");
+            return;
+        }
         const payload = {
             session_id: sessionId,
             age,
@@ -127,7 +133,7 @@ function App() {
     };
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div className={styles.backgroundColor} style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div style={{ flex: 1, position: "relative", width: "100%", overflow: "hidden" }}>
                 <div style={{ maxWidth: "600px", margin: "20px", padding: "20px" }}>

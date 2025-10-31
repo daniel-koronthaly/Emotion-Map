@@ -1,15 +1,9 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const genderToColor = {
-  "Male": "#2761F5",
-  "Female": "#d45fdf",
-  "Nonbinary / Gender diverse": "#fff200ff",
-  "Prefer not to answer": "#7e828cff"
-}
+import { genderToColor } from "../helpers/GenderToColor";
 
 // Small component to render a point with smooth ease-in/out glow
-const Point = ({ x, y, size = 5, gender, age }) => {
+const Point = ({ x, y, size = 7, gender, age }) => {
   function hexToRgba(hex, alpha = 0.6) {
     let sanitized = hex.replace("#", "");
     if (sanitized.length === 3) {
@@ -24,18 +18,34 @@ const Point = ({ x, y, size = 5, gender, age }) => {
   const color = genderToColor[gender]
   const glowColor = hexToRgba(color, 0.6);
   return (
-    <motion.circle
-      cx={x}
-      cy={y}
-      r={size}
-      fill={color}
-      stroke={glowColor}
-      strokeWidth={0}
-      initial={{ r: 0, opacity: 0, strokeWidth: 0 }}
-      animate={{ r: size, opacity: 1, strokeWidth: [0, 15, 0] }}
-      exit={{ r: 0, opacity: 0 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
-    />
+    <>
+      {/* Colored circle with glow */}
+      <motion.circle
+        cx={x}
+        cy={y}
+        r={size}
+        fill={color}
+        stroke={glowColor}
+        strokeWidth={0}
+        initial={{ r: 0, opacity: 0, strokeWidth: 0 }}
+        animate={{ r: size, opacity: 1, strokeWidth: [0, 15, 0] }}
+        exit={{ r: 0, opacity: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      />
+
+      {/* Persistent black border circle */}
+      <motion.circle
+        cx={x}
+        cy={y}
+        r={size}
+        fill="transparent"
+        stroke="black"
+        strokeWidth={1.2}
+        initial={{ r: 0, opacity: 0, strokeWidth: 0 }}
+        animate={{ r: size, opacity: 1, strokeWidth: [0, 1.2] }}
+        exit={{ r: 0, opacity: 0 }}
+      />
+    </>
   );
 };
 
@@ -115,24 +125,39 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
           })}
         </AnimatePresence>
 
-        {/* Red draggable point */}
-        <motion.circle
-          fill="red"
-          stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : ""}
-          strokeWidth={isDraggingRed ? 15 : 0}
-          initial={{ r: 5 }}
-          animate={{
-            r: isDraggingRed ? 10 : 5,
-            cx: svgX,
-            cy: svgY,
-          }}
-          transition={{
-            r: { type: "spring", stiffness: 200, damping: 20 },
-            cx: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
-            cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
-          }}
-        />
+        {/* Red draggable point with persistent black border */}
+        <>
+          {/* Glow */}
+          <motion.circle
+            cx={svgX}
+            cy={svgY}
+            r={isDraggingRed ? 10 : 7}
+            fill="red"
+            stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : "transparent"}
+            strokeWidth={isDraggingRed ? 15 : 0}
+            initial={{ r: 0, opacity: 0 }}
+            animate={{ r: isDraggingRed ? 10 : 7, opacity: 1 }}
+            exit={{ r: 0, opacity: 0 }}
+            transition={{
+              r: { type: "spring", stiffness: 200, damping: 20 },
+              opacity: { duration: 0.3 },
+            }}
+          />
+          {/* Black border circle */}
+          <motion.circle
+            cx={svgX}
+            cy={svgY}
+            r={isDraggingRed ? 10 : 7}
+            fill="transparent"
+            stroke="black"
+            strokeWidth={1.2}
+            animate={{ r: isDraggingRed ? 10 : 7 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          />
 
+
+
+        </>
 
       </svg>
     </div>

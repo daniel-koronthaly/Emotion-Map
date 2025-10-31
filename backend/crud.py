@@ -75,10 +75,10 @@ def export_all_data_to_csv(session: Session, file_path: str) -> str:
                 emotion.valence,
                 emotion.arousal,
                 emotion.timestamp.isoformat(),
-                demographic.age_range,
+                demographic.age,
                 demographic.gender,
                 demographic.sexuality,
-                demographic.is_transgender,
+                demographic.transgender,
             ])
 
     return file_path
