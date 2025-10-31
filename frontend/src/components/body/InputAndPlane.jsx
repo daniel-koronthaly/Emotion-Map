@@ -1,18 +1,7 @@
 import CartesianPlane from "../plane/CartesianPlane";
 import LabeledPlaneWrapper from "../plane/LabeledPlaneWrapper";
-import { useState } from "react";
 
-function InputAndPlane({ width }) {
-  const [point, setPoint] = useState({ x: 0, y: 0 });
-  const [extraPoints, setExtraPoints] = useState([]);
-
-  const addCircle = (x, y) => {
-    setExtraPoints((prev) => [...prev, { x, y }]);
-  };
-
-  const clearCircles = () => {
-    setExtraPoints([])
-  }
+function InputAndPlane({ width, point, setPoint, extraPoints }) {
 
   return (
     <div style={{
@@ -23,18 +12,7 @@ function InputAndPlane({ width }) {
       width: 600,
       gap: '10px',
     }}>
-      <button
-        style={{ width: width, height: "50px" }}
-        onClick={() => addCircle(Math.random() * 2 - 1, Math.random() * 2 - 1)}
-      >
-        Add Random Circle
-      </button>
-      <button
-        style={{ width: width, height: "50px" }}
-        onClick={clearCircles}
-      >
-        Clear Circles
-      </button>
+
       <div style={{ position: "relative", display: "inline-block" }}>
         <LabeledPlaneWrapper
           width={width}

@@ -2,9 +2,9 @@ const Header = ({ currentPage, setCurrentPage }) => {
   return (
     <header>
       <nav>
-        <button onClick={() => setCurrentPage(3)}>Plane</button>
-        <button onClick={() => setCurrentPage(1)}>Explanation</button>
-        <button onClick={() => setCurrentPage(2)}>Demographics</button>
+        <button onClick={() => setCurrentPage("MainPage")}>Plane</button>
+        <button onClick={() => setCurrentPage("Explanation")}>Explanation</button>
+        <button onClick={() => setCurrentPage("Demographics")}>Demographics</button>
       </nav>
     </header>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Explanation from "./components/body/Explanation"
@@ -6,13 +6,100 @@ import DemographicsForm from "./components/body/DemographicsForm";
 import WelcomePage from "./components/body/WelcomePage";
 import { motion, AnimatePresence } from "framer-motion";
 import MainPage from "./components/body/MainPage";
-
-
+import { emotions, shuffle } from "./components/helpers/EmotionList";
+import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 function App() {
-    const [currentPage, setCurrentPage] = useState(0); // 0 = welcome, 1 = explanation, 2 = main body
+    const pages = [
+        "Welcome",
+        "Explanation",
+        "Demographics",
+        "MainPage",
+        "Results"
+    ];
 
-    const goNext = () => setCurrentPage((prev) => prev + 1);
-    const goBack = () => setCurrentPage((prev) => prev - 1);
+    const sessionId = useRef(uuidv4()).current;
+    const shuffledEmotions = React.useMemo(() => shuffle([...emotions]), []);
+    const [currentEmotion, setCurrentEmotion] = useState(0);
+
+    const [emotionUserResponseList, setEmotionUserResponseList] = useState(null)
+
+    useEffect(() => {
+        if (currentEmotion >= shuffledEmotions.length) {
+            setCurrentPage("Results");
+            return;
+        }
+        fetch("http://localhost:8000/emotions/" + shuffledEmotions[currentEmotion])
+            .then(res => res.json())
+            .then(data => setEmotionUserResponseList(data))
+            .catch(err => {
+                console.error(err);
+                setEmotionUserResponseList([]);
+            });
+    }, [currentEmotion, shuffledEmotions]);
+
+    const nextEmotion = () => {
+        setCurrentEmotion((prev) => prev + 1)
+    }
+
+    const [currentPage, setCurrentPage] = useState("Welcome");
+    const goNext = () => {
+        const index = pages.indexOf(currentPage)
+        if (index < (pages.length - 1) && index !== -1) {
+            setCurrentPage(pages[index + 1]);
+        }
+    }
+    const goBack = () => {
+        const index = pages.indexOf(currentPage)
+        if (index > 0) {
+            setCurrentPage(pages[index - 1]);
+        }
+    }
+
+    const [isDemographicSubmitted, setIsDemographicSubmitted] = useState(false);
+
+    const handleDemographicsSubmit = async (age, gender, sexuality, transgender) => {
+        const payload = {
+            session_id: sessionId,
+            age,
+            gender,
+            sexuality,
+            is_transgender: transgender
+        }
+        setCurrentPage("MainPage");
+        try {
+            const response = await axios.post("http://localhost:8000/demographics/", payload);
+            setIsDemographicSubmitted(true)
+            console.log("Response from FastAPI:", response.data);
+        }
+        catch (err) {
+            console.error("Error posting demographic:", err);
+            alert("Failed to submit demographic. Returning to demographics form.");
+            setCurrentPage("Demographics");
+        }
+    };
+
+    const handleEmotionSubmit = async (emotion, valence, arousal) => {
+        if (!isDemographicSubmitted) {
+            alert("Need to submit demographic information before submitting any emotions");
+            return
+        }
+        const payload = {
+            session_id: sessionId,
+            emotion,
+            valence,
+            arousal
+        }
+        try {
+            nextEmotion()
+            const response = await axios.post("http://localhost:8000/emotions/", payload);
+            console.log("Response from FastAPI:", response.data);
+        }
+        catch (err) {
+            console.error("Error posting emotion:", err);
+            alert("Failed to submit emotion.");
+        }
+    };
 
     const pageVariants = {
         initial: { opacity: 0, x: 50 },
@@ -30,8 +117,8 @@ function App() {
             <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div style={{ flex: 1, position: "relative", width: "100%", overflow: "hidden" }}>
                 <div style={{ maxWidth: "600px", margin: "20px", padding: "20px" }}>
-                    <AnimatePresence exitBeforeEnter>
-                        {currentPage === 0 && (
+                    <AnimatePresence mode="wait">
+                        {currentPage === "Welcome" && (
                             <motion.div
                                 key="welcome"
                                 variants={pageVariants}
@@ -45,7 +132,7 @@ function App() {
                             </motion.div>
                         )}
 
-                        {currentPage === 1 && (
+                        {currentPage === "Explanation" && (
                             <motion.div
                                 key="explanation"
                                 variants={pageVariants}
@@ -59,7 +146,7 @@ function App() {
                             </motion.div>
                         )}
 
-                        {currentPage === 2 && (
+                        {currentPage === "Demographics" && (
                             <motion.div
                                 key="demographics"
                                 variants={pageVariants}
@@ -69,11 +156,11 @@ function App() {
                                 transition={pageTransition}
                                 style={{ position: "absolute", width: "100%" }}
                             >
-                                <DemographicsForm />
+                                <DemographicsForm onSubmit={handleDemographicsSubmit} />
                             </motion.div>
                         )}
 
-                        {currentPage === 3 && (
+                        {currentPage === "MainPage" && (
                             <motion.div
                                 key="body"
                                 variants={pageVariants}
@@ -83,7 +170,7 @@ function App() {
                                 transition={pageTransition}
                                 style={{ position: "absolute", width: "100%" }}
                             >
-                                <MainPage />
+                                <MainPage emotions={shuffledEmotions} onSubmit={handleEmotionSubmit} />
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -92,19 +179,18 @@ function App() {
             <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between", width: "200px", marginLeft: "auto", marginRight: "auto" }}>
                 <button
                     onClick={goBack}
-                    style={{ visibility: currentPage > 0 ? "visible" : "hidden" }}
+                    style={{ visibility: pages.indexOf(currentPage) > 0 ? "visible" : "hidden" }}
                 >
                     Back
                 </button>
 
                 <button
                     onClick={goNext}
-                    style={{ visibility: currentPage < 3 ? "visible" : "hidden" }}
+                    style={{ visibility: pages.indexOf(currentPage) < 3 ? "visible" : "hidden" }}
                 >
                     Next
                 </button>
             </div>
-
             <Footer />
         </div>
     );

@@ -16,7 +16,7 @@ def post_emotion(response: EmotionResponse, session: SessionDep):
 @router.get("/{emotion}", response_model=list[EmotionResponseRead])
 def read_emotion_by_name(emotion: str, session: SessionDep):
     """
-    Endpoint to fetch all emotion responses for a specific session.
+    Endpoint to fetch all emotion responses for a specific emotion.
     """
     return get_emotions_by_name(session, emotion)
 

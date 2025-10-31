@@ -111,7 +111,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [] }) => {
           strokeWidth={isDraggingRed ? 15 : 0}
         />
 
-        {/* Extra blue points with smooth glow */}
+        {/* Extra points with smooth glow */}
         <AnimatePresence>
           {extraPoints.map((p, i) => {
             const { svgX: x, svgY: y } = cartesianToSvg(p.x, p.y);
