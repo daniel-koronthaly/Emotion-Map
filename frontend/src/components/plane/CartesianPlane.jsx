@@ -32,7 +32,7 @@ const Point = ({ x, y, size = 5, color = "#0000ff" }) => {
   );
 };
 
-const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [] }) => {
+const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showingOtherUsers }) => {
   const [isDraggingRed, setIsDraggingRed] = useState(false);
   const svgRef = useRef(null);
 
@@ -50,6 +50,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [] }) => {
   });
 
   const startDragging = (e) => {
+    if (showingOtherUsers) return; // Don't allow dragging if we're showing other users.
     if (e.button !== 0) return; // left-click only
 
     setIsDraggingRed(true);
@@ -104,7 +105,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [] }) => {
           cx={svgX}
           cy={svgY}
           fill="red"
-          r={5}
+          initial={{ r: 5 }}
           animate={{ r: isDraggingRed ? 10 : 5 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : ""}
@@ -115,7 +116,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [] }) => {
         <AnimatePresence>
           {extraPoints.map((p, i) => {
             const { svgX: x, svgY: y } = cartesianToSvg(p.x, p.y);
-            return <Point key={i} x={x} y={y} />;
+            return <Point key={i} x={x} y={y} color={p.color} />;
           })}
         </AnimatePresence>
       </svg>

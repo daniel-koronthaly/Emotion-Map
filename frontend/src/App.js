@@ -7,8 +7,12 @@ import WelcomePage from "./components/body/WelcomePage";
 import { motion, AnimatePresence } from "framer-motion";
 import MainPage from "./components/body/MainPage";
 import { emotions, shuffle } from "./components/helpers/EmotionList";
+import { fakeData } from "./components/helpers/MockEmotionData";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
+
+const useFakeDataForTestingPurposes = true
+
 function App() {
     const pages = [
         "Welcome",
@@ -29,13 +33,18 @@ function App() {
             setCurrentPage("Results");
             return;
         }
-        fetch("http://localhost:8000/emotions/" + shuffledEmotions[currentEmotion])
-            .then(res => res.json())
-            .then(data => setEmotionUserResponseList(data))
-            .catch(err => {
-                console.error(err);
-                setEmotionUserResponseList([]);
-            });
+        if (useFakeDataForTestingPurposes) {
+            setEmotionUserResponseList(fakeData)
+        }
+        else {
+            fetch("http://localhost:8000/emotions/" + shuffledEmotions[currentEmotion])
+                .then(res => res.json())
+                .then(data => setEmotionUserResponseList(data))
+                .catch(err => {
+                    console.error(err);
+                    setEmotionUserResponseList([]);
+                });
+        }
     }, [currentEmotion, shuffledEmotions]);
 
     const nextEmotion = () => {
@@ -59,6 +68,9 @@ function App() {
     const [isDemographicSubmitted, setIsDemographicSubmitted] = useState(false);
 
     const handleDemographicsSubmit = async (age, gender, sexuality, transgender) => {
+        if (useFakeDataForTestingPurposes) {
+            return
+        }
         const payload = {
             session_id: sessionId,
             age,
@@ -80,6 +92,9 @@ function App() {
     };
 
     const handleEmotionSubmit = async (emotion, valence, arousal) => {
+        if (useFakeDataForTestingPurposes) {
+            return
+        }
         if (!isDemographicSubmitted) {
             alert("Need to submit demographic information before submitting any emotions");
             return
@@ -91,7 +106,6 @@ function App() {
             arousal
         }
         try {
-            nextEmotion()
             const response = await axios.post("http://localhost:8000/emotions/", payload);
             console.log("Response from FastAPI:", response.data);
         }
@@ -170,7 +184,7 @@ function App() {
                                 transition={pageTransition}
                                 style={{ position: "absolute", width: "100%" }}
                             >
-                                <MainPage emotions={shuffledEmotions} onSubmit={handleEmotionSubmit} />
+                                <MainPage emotion={shuffledEmotions[currentEmotion]} emotionUserList={emotionUserResponseList} onSubmit={handleEmotionSubmit} nextEmotion={nextEmotion} />
                             </motion.div>
                         )}
                     </AnimatePresence>

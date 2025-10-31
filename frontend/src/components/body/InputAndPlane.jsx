@@ -1,7 +1,7 @@
 import CartesianPlane from "../plane/CartesianPlane";
 import LabeledPlaneWrapper from "../plane/LabeledPlaneWrapper";
 
-function InputAndPlane({ width, point, setPoint, extraPoints }) {
+function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers }) {
 
   return (
     <div style={{
@@ -26,6 +26,7 @@ function InputAndPlane({ width, point, setPoint, extraPoints }) {
             point={point}
             setPoint={setPoint}
             extraPoints={extraPoints}
+            showingOtherUsers={showingOtherUsers}
           />
         </LabeledPlaneWrapper>
       </div>
