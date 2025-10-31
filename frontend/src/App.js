@@ -11,7 +11,7 @@ import { fakeData } from "./components/helpers/MockEmotionData";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-const useFakeDataForTestingPurposes = true
+const useFakeDataForTestingPurposes = false
 
 function App() {
     const pages = [
@@ -76,7 +76,7 @@ function App() {
             age,
             gender,
             sexuality,
-            is_transgender: transgender
+            transgender
         }
         setCurrentPage("MainPage");
         try {

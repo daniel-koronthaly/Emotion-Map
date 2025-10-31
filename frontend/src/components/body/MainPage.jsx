@@ -13,18 +13,14 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
 
   const [showingOtherUsers, setShowingOtherUsers] = useState(false)
 
-  const genderToColor = {
-    "Male": "#2761F5",
-    "Female": "#d45fdf",
-    "Nonbinary / Gender diverse": "#fff200ff",
-    "Prefer not to answer": "#7e828cff"
-  }
-
   const handleClick = () => {
     if (showingOtherUsers) {
       setExtraPoints([])
-      nextEmotion()
-      setShowingOtherUsers(false)
+      setPoint({ x: 0, y: 0 })
+      setTimeout(() => {
+        nextEmotion();
+        setShowingOtherUsers(false);
+      }, 200);
     } else {
       onSubmit(emotion, point.x, point.y)
       if (emotionUserList.length === 0) {
@@ -34,7 +30,8 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
         const points = emotionUserList.map((response) => ({
           x: response.valence,
           y: response.arousal,
-          color: genderToColor[response.demographic.gender]
+          gender: response.demographic.gender,
+          age: response.demographic.age
         }));
         setExtraPoints(points);
       }
@@ -45,8 +42,26 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
   return (
     <div style={{}}>
       <h2>Main App</h2>
-      <InputAndPlane width={600} point={point} setPoint={movePoint} extraPoints={extraPoints} showingOtherUsers={showingOtherUsers}/>
-      <button style={{ width: 600 }} onClick={handleClick}>Submit</button>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "fit-content"
+        }}
+      >
+        <h3>{emotion}</h3>
+        <InputAndPlane
+          width={500}
+          point={point}
+          setPoint={movePoint}
+          extraPoints={extraPoints}
+          showingOtherUsers={showingOtherUsers}
+        />
+        <button style={{ width: 500, marginTop: "10px" }} onClick={handleClick}>
+          {showingOtherUsers ? "Next Emotion" : "Submit"}
+        </button>
+      </div>
     </div>
   );
 };

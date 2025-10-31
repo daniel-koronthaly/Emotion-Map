@@ -36,6 +36,7 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
           X:
           <input
             style={{ marginLeft: 10, flex: 1, minWidth: "30px" }}
+            disabled={showingOtherUsers}
             type="number"
             step="0.01"
             value={point.x.toFixed(2)}
@@ -46,6 +47,7 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
           Y:
           <input
             style={{ marginLeft: 10, flex: 1, minWidth: "30px" }}
+            disabled={showingOtherUsers}
             type="number"
             step="0.01"
             value={point.y.toFixed(2)}

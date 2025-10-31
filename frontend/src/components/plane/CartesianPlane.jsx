@@ -1,9 +1,15 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const genderToColor = {
+  "Male": "#2761F5",
+  "Female": "#d45fdf",
+  "Nonbinary / Gender diverse": "#fff200ff",
+  "Prefer not to answer": "#7e828cff"
+}
 
 // Small component to render a point with smooth ease-in/out glow
-const Point = ({ x, y, size = 5, color = "#0000ff" }) => {
+const Point = ({ x, y, size = 5, gender, age }) => {
   function hexToRgba(hex, alpha = 0.6) {
     let sanitized = hex.replace("#", "");
     if (sanitized.length === 3) {
@@ -15,6 +21,7 @@ const Point = ({ x, y, size = 5, color = "#0000ff" }) => {
     const b = parseInt(sanitized.slice(4, 6), 16);
     return `rgba(${r},${g},${b},${alpha})`;
   }
+  const color = genderToColor[gender]
   const glowColor = hexToRgba(color, 0.6);
   return (
     <motion.circle
@@ -100,25 +107,33 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
         <line x1={0} y1={size / 2} x2={size} y2={size / 2} stroke="gray" />
         <line x1={size / 2} y1={0} x2={size / 2} y2={size} stroke="gray" />
 
-        {/* Red draggable point */}
-        <motion.circle
-          cx={svgX}
-          cy={svgY}
-          fill="red"
-          initial={{ r: 5 }}
-          animate={{ r: isDraggingRed ? 10 : 5 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : ""}
-          strokeWidth={isDraggingRed ? 15 : 0}
-        />
-
         {/* Extra points with smooth glow */}
         <AnimatePresence>
           {extraPoints.map((p, i) => {
             const { svgX: x, svgY: y } = cartesianToSvg(p.x, p.y);
-            return <Point key={i} x={x} y={y} color={p.color} />;
+            return <Point key={i} x={x} y={y} gender={p.gender} age={p.age} />;
           })}
         </AnimatePresence>
+
+        {/* Red draggable point */}
+        <motion.circle
+          fill="red"
+          stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : ""}
+          strokeWidth={isDraggingRed ? 15 : 0}
+          initial={{ r: 5 }}
+          animate={{
+            r: isDraggingRed ? 10 : 5,
+            cx: svgX,
+            cy: svgY,
+          }}
+          transition={{
+            r: { type: "spring", stiffness: 200, damping: 20 },
+            cx: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
+            cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
+          }}
+        />
+
+
       </svg>
     </div>
   );

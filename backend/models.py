@@ -10,10 +10,10 @@ from typing import ClassVar
 class DemographicResponse(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     session_id: str = Field(index=True, unique=True) # UUID
-    age_range: AgeOptions
+    age: AgeOptions
     gender: GenderOptions
     sexuality: SexualityOptions
-    is_transgender: TransgenderOptions
+    transgender: TransgenderOptions
     emotion_responses: list["EmotionResponse"] = Relationship(back_populates="demographic")
 
 # One per emotion, multiple per specific session_id

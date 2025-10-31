@@ -42,7 +42,7 @@ const DemographicsForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ age, gender, sexuality, transgender });
+    onSubmit(age, gender, sexuality, transgender);
   };
 
   const renderRadioGroup = (label, value, setValue, options) => (

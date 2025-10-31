@@ -5,10 +5,10 @@ from datetime import datetime
 class DemographicResponseRead(BaseModel):
     id: int   
     session_id: str
-    age_range: str
+    age: str
     gender: str
     sexuality: str
-    is_transgender: str
+    transgender: str
 
     model_config = ConfigDict(from_attributes=True)
 
