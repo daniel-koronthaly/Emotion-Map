@@ -10,7 +10,7 @@ const ExplanationPage = () => {
       </p>
       <ul>
         <li>
-          <strong>Valence:</strong> Whether an emotion is positive or negative. Indicates pleasantness.
+          <strong>Valence:</strong> Whether an emotion is positive or negative.
         </li>
         <li>
           <strong>Arousal:</strong> The intensity of an emotion, from calm to excited.

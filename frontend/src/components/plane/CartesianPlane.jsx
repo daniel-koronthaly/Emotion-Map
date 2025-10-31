@@ -110,7 +110,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
         ref={svgRef}
         width={size}
         height={size}
-        style={{ border: "1px solid black", cursor: isDraggingRed ? "grabbing" : "default" }}
+        style={{ border: "2px solid black", cursor: isDraggingRed ? "grabbing" : "default" }}
         onMouseDown={startDragging}
       >
         {/* Axes */}

@@ -31,7 +31,7 @@ const LegendEntry = ({ gender }) => {
 export default function Legend({ legendGenders, showingOtherUsers }) {
     return (
         <div style={{
-            marginTop: 100,
+            marginTop: 80,
             display: "flex",
             flexDirection: "column",
             position: "relative",

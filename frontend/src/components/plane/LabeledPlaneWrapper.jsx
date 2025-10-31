@@ -30,7 +30,7 @@ export default function LabeledPlaneWrapper({
       style={{
         display: "inline-block",
         width: "100%",
-        padding: "40px"
+        padding: "20px"
       }}
     >
       {/* position:relative inline-block container that is exactly the SVG size */}

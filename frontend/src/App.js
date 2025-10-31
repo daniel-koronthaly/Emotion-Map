@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
 import Explanation from "./components/body/Explanation"
 import DemographicsForm from "./components/body/DemographicsForm";
 import WelcomePage from "./components/body/WelcomePage";
@@ -11,18 +10,12 @@ import { fakeData } from "./components/helpers/MockEmotionData";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import styles from "./styles/Theme.module.css"
+import ExportToCsv from "./components/body/ExportToCsv";
+import About from "./components/body/About";
 
 const useFakeDataForTestingPurposes = false
 
 function App() {
-    const pages = [
-        "Welcome",
-        "Explanation",
-        "Demographics",
-        "MainPage",
-        "Results"
-    ];
-
     const sessionId = useRef(uuidv4()).current;
     const shuffledEmotions = React.useMemo(() => shuffle([...emotions]), []);
     const [currentEmotion, setCurrentEmotion] = useState(0);
@@ -53,18 +46,6 @@ function App() {
     }
 
     const [currentPage, setCurrentPage] = useState("Welcome");
-    const goNext = () => {
-        const index = pages.indexOf(currentPage)
-        if (index < (pages.length - 1) && index !== -1) {
-            setCurrentPage(pages[index + 1]);
-        }
-    }
-    const goBack = () => {
-        const index = pages.indexOf(currentPage)
-        if (index > 0) {
-            setCurrentPage(pages[index - 1]);
-        }
-    }
 
     const [isDemographicSubmitted, setIsDemographicSubmitted] = useState(false);
 
@@ -103,8 +84,10 @@ function App() {
         }
         if (!isDemographicSubmitted) {
             alert("Need to submit demographic information before submitting any emotions");
+            setCurrentPage("Demographics");
             return
         }
+
         const payload = {
             session_id: sessionId,
             emotion,
@@ -134,9 +117,9 @@ function App() {
 
     return (
         <div className={styles.backgroundColor} style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-            <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Header currentPage={currentPage} setCurrentPage={setCurrentPage} isDemographicSubmitted={isDemographicSubmitted} />
             <div style={{ flex: 1, position: "relative", width: "100%", overflow: "hidden" }}>
-                <div style={{ maxWidth: "600px", margin: "20px", padding: "20px" }}>
+                <div style={{ maxWidth: "600px", marginLeft: "20px", padding: "10px" }}>
                     <AnimatePresence mode="wait">
                         {currentPage === "Welcome" && (
                             <motion.div
@@ -193,25 +176,51 @@ function App() {
                                 <MainPage emotion={shuffledEmotions[currentEmotion]} emotionUserList={emotionUserResponseList} onSubmit={handleEmotionSubmit} nextEmotion={nextEmotion} />
                             </motion.div>
                         )}
+
+                        {currentPage === "ExportToCsv" && (
+                            <motion.div
+                                key="export"
+                                variants={pageVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={pageTransition}
+                                style={{ position: "absolute", width: "100%" }}
+                            >
+                                <ExportToCsv />
+                            </motion.div>
+                        )}
+
+                        {currentPage === "About" && (
+                            <motion.div
+                                key="about"
+                                variants={pageVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={pageTransition}
+                                style={{ position: "absolute", width: "100%" }}
+                            >
+                                <About />
+                            </motion.div>
+                        )}
+
+                        {currentPage === "Results" && (
+                            <motion.div
+                                key="results"
+                                variants={pageVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={pageTransition}
+                                style={{ position: "absolute", width: "100%" }}
+                            >
+                                <h1>Thank you for participating!</h1>
+                            </motion.div>
+                        )}
                     </AnimatePresence>
                 </div>
             </div>
-            <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between", width: "200px", marginLeft: "auto", marginRight: "auto" }}>
-                <button
-                    onClick={goBack}
-                    style={{ visibility: pages.indexOf(currentPage) > 0 ? "visible" : "hidden" }}
-                >
-                    Back
-                </button>
-
-                <button
-                    onClick={goNext}
-                    style={{ visibility: pages.indexOf(currentPage) < 3 ? "visible" : "hidden" }}
-                >
-                    Next
-                </button>
-            </div>
-            <Footer />
         </div>
     );
 }

@@ -81,7 +81,17 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
               extraPoints={extraPoints}
               showingOtherUsers={showingOtherUsers}
             />
-            <button style={{ width: 500, marginTop: "10px" }} onClick={handleClick}>
+            <button style={{
+              backgroundColor: showingOtherUsers ? "#506b6eff": "#008192",
+              color: "white",
+              width: 500,
+              height: 40,
+              borderWidth: 0,
+              borderRadius: 15,
+              fontSize: "14px",
+              fontWeight: 600,
+              marginTop: "10px"
+            }} onClick={handleClick}>
               {showingOtherUsers ? "Next Emotion" : "Submit"}
             </button>
           </div>
