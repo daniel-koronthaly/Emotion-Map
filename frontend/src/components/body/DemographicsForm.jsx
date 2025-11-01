@@ -42,7 +42,7 @@ const DemographicsForm = ({ onSubmit }) => {
       <div style={{alignItems: "center", display: 'flex', flexDirection: 'row', marginBottom: -20}}>
         <h2 className="">Tell us about yourself</h2>
         <a
-          href="https://github.com/yourusername/your-repo-name#data-privacy-policy"
+          href="https://github.com/daniel-koronthaly/#data-privacy-policy"
           target="_blank"
           rel="noopener noreferrer"
           title="View our data privacy policy"
