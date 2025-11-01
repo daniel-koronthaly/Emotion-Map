@@ -131,7 +131,7 @@ function App() {
                                 transition={pageTransition}
                                 style={{ position: "absolute", width: "100%" }}
                             >
-                                <WelcomePage />
+                                <WelcomePage setCurrentPage={setCurrentPage} />
                             </motion.div>
                         )}
 
@@ -145,7 +145,8 @@ function App() {
                                 transition={pageTransition}
                                 style={{ position: "absolute", width: "100%" }}
                             >
-                                <Explanation />
+                                <Explanation setCurrentPage={setCurrentPage} 
+                                isDemographicSubmitted={isDemographicSubmitted} />
                             </motion.div>
                         )}
 
@@ -173,7 +174,11 @@ function App() {
                                 transition={pageTransition}
                                 style={{ position: "absolute", width: "100%" }}
                             >
-                                <MainPage emotion={shuffledEmotions[currentEmotion]} emotionUserList={emotionUserResponseList} onSubmit={handleEmotionSubmit} nextEmotion={nextEmotion} />
+                                <MainPage
+                                    emotion={shuffledEmotions[currentEmotion]}
+                                    emotionUserList={emotionUserResponseList}
+                                    onSubmit={handleEmotionSubmit}
+                                    nextEmotion={nextEmotion} />
                             </motion.div>
                         )}
 

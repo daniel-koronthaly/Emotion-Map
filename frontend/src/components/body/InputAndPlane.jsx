@@ -79,10 +79,10 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
           gap: "8px",
         }}
       >
-        <label style={{ display: "flex", width: "50%", justifyContent: "center" }}>
+        <label style={{ display: "flex", width: "50%", justifyContent: "center", fontSize: 18 }}>
           X:
           <input
-            style={{ marginLeft: 10, flex: 1, minWidth: "30px" }}
+            style={{ marginLeft: 10, flex: 1, minWidth: "30px", fontSize: 18 }}
             disabled={showingOtherUsers}
             type="number"
             step="0.01"
@@ -95,10 +95,10 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
           />
         </label>
 
-        <label style={{ display: "flex", width: "50%", justifyContent: "center" }}>
+        <label style={{ display: "flex", width: "50%", justifyContent: "center", fontSize: 18 }}>
           Y:
           <input
-            style={{ marginLeft: 10, flex: 1, minWidth: "30px" }}
+            style={{ marginLeft: 10, flex: 1, minWidth: "30px", fontSize: 18 }}
             disabled={showingOtherUsers}
             type="number"
             step="0.01"

@@ -110,12 +110,12 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
         ref={svgRef}
         width={size}
         height={size}
-        style={{ border: "2px solid black", cursor: isDraggingRed ? "grabbing" : "default" }}
+        style={{ border: "2px solid white", backgroundColor: '#1b1d22ff', cursor: isDraggingRed ? "grabbing" : "default" }}
         onMouseDown={startDragging}
       >
         {/* Axes */}
-        <line x1={0} y1={size / 2} x2={size} y2={size / 2} stroke="gray" />
-        <line x1={size / 2} y1={0} x2={size / 2} y2={size} stroke="gray" />
+        <line x1={0} y1={size / 2} x2={size} y2={size / 2} stroke="#b6bccaff" />
+        <line x1={size / 2} y1={0} x2={size / 2} y2={size} stroke="#b6bccaff" />
 
         {/* Extra points with smooth glow */}
         <AnimatePresence>
@@ -136,23 +136,36 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
             stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : "transparent"}
             strokeWidth={isDraggingRed ? 15 : 0}
             initial={{ r: 0, opacity: 0 }}
-            animate={{ r: isDraggingRed ? 10 : 7, opacity: 1 }}
+            animate={{
+              r: isDraggingRed ? 10 : 7,
+              opacity: 1,
+              cx: svgX,
+              cy: svgY,
+            }}
             exit={{ r: 0, opacity: 0 }}
             transition={{
               r: { type: "spring", stiffness: 200, damping: 20 },
+              cx: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
+              cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
               opacity: { duration: 0.3 },
             }}
           />
           {/* Black border circle */}
           <motion.circle
-            cx={svgX}
-            cy={svgY}
             r={isDraggingRed ? 10 : 7}
             fill="transparent"
             stroke="black"
             strokeWidth={1.2}
-            animate={{ r: isDraggingRed ? 10 : 7 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            animate={{
+              r: isDraggingRed ? 10 : 7,
+              cx: svgX,
+              cy: svgY,
+            }}
+            transition={{
+              r: { type: "spring", stiffness: 200, damping: 20 },
+              cx: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
+              cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
+            }}
           />
 
 

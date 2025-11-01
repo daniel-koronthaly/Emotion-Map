@@ -33,6 +33,9 @@ const DemographicsForm = ({ onSubmit }) => {
     </div>
   );
 
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
   return (
     <form onSubmit={handleSubmit} className="">
       <h2 className="">Tell us about yourself</h2>
@@ -44,7 +47,7 @@ const DemographicsForm = ({ onSubmit }) => {
 
       <button type="submit" className=""
         style={{
-          backgroundColor: "#008192",
+          backgroundColor: isHovered ? "#00a0b8" : "#008192",
           color: "white",
           width: 200,
           height: 40,
@@ -52,8 +55,12 @@ const DemographicsForm = ({ onSubmit }) => {
           borderRadius: 15,
           fontSize: "14px",
           fontWeight: 600,
-          marginTop: "10px"
-        }}>
+          marginTop: "10px",
+          transition: "background-color 0.2s, transform 0.1s"
+        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         Submit
       </button>
     </form>

@@ -22,7 +22,11 @@ const Header = ({ currentPage, setCurrentPage, isDemographicSubmitted }) => {
 
   return (
     <header className={styles.header}>
-      <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}><h1 style={{ marginLeft: 40 }}>Emotion Map</h1></div>
+      <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+        <h1 className={styles.title} onClick={() => setCurrentPage("Welcome")} style={{ marginLeft: 40 }}>
+          Emotion Map
+        </h1>
+      </div>
       <nav style={{ marginRight: "20px" }} className={styles.nav}>
         {buttons.map((b, i) => (
           <button

@@ -53,7 +53,7 @@ export default function Legend({ legendGenders, showingOtherUsers }) {
                         <div
                             style={{
                                 width: 150,
-                                border: "2px solid black",
+                                border: "2px solid white",
                                 borderRadius: "10px",
                                 padding: "10px",
                                 display: "flex",

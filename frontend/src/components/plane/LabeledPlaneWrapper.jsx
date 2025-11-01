@@ -71,7 +71,7 @@ export default function LabeledPlaneWrapper({
               position: "absolute",
               left: "50%",
               top: "100%",
-              marginTop: labelSpacing-10,
+              marginTop: labelSpacing-8,
               transform: "translateX(-50%)",
               pointerEvents: "none",
               whiteSpace: "nowrap",

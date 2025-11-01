@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InputAndPlane from "./InputAndPlane";
 import Legend from "../plane/Legend";
+import { AnimatedText } from "../helpers/AnimatedText";
 
 const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
   const [point, setPoint] = useState({ x: 0, y: 0 });
@@ -58,31 +59,62 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
     }
   }
 
-  return (
-    <div>
-      <h2>Main App</h2>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "fit-content",
-        }}
-      >
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
-        {/* Row: plane+button together, Legend to the right */}
-        <div style={{ display: "flex", alignItems: "flex-start" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h3>{emotion}</h3>
-            <InputAndPlane
-              width={500}
-              point={point}
-              setPoint={movePoint}
-              extraPoints={extraPoints}
-              showingOtherUsers={showingOtherUsers}
-            />
-            <button style={{
-              backgroundColor: showingOtherUsers ? "#506b6eff": "#008192",
+  const baseColor = showingOtherUsers ? "#506b6e" : "#008192";
+  const hoverColor = showingOtherUsers ? "#688b8e" : "#00a0b8";
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      {/* This is the centered content wrapper */}
+      <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+        {/* Plane + button column */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <h2 style={{ textAlign: "center" }}>
+            Current emotion:{" "}
+            <span
+              style={{
+                display: "inline-block",
+                minWidth: "120px",
+                verticalAlign: "baseline",
+                fontSize: 40
+              }}
+            >
+              <AnimatedText
+                style={{ display: "inline-block" }}
+              >
+                {emotion}
+              </AnimatedText>
+            </span>
+          </h2>
+          <AnimatedText flag={showingOtherUsers} delay={0.2}>{!showingOtherUsers
+            ? "Click and drag the red point to where you think this emotion belongs!"
+            : "This is what other users said!"}
+          </AnimatedText>
+          <InputAndPlane
+            width={500}
+            point={point}
+            setPoint={movePoint}
+            extraPoints={extraPoints}
+            showingOtherUsers={showingOtherUsers}
+          />
+          <button
+            style={{
+              backgroundColor: isHovered ? hoverColor : baseColor,
               color: "white",
               width: 500,
               height: 40,
@@ -90,12 +122,31 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
               borderRadius: 15,
               fontSize: "14px",
               fontWeight: 600,
-              marginTop: "10px"
-            }} onClick={handleClick}>
-              {showingOtherUsers ? "Next Emotion" : "Submit"}
-            </button>
-          </div>
-          <Legend legendGenders={["You", ...legendGenders]} showingOtherUsers={showingOtherUsers} />
+              marginTop: "10px",
+              transition: "background-color 0.2s, transform 0.1s"
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+          >
+            {showingOtherUsers ? "Next Emotion" : "Submit"}
+          </button>
+        </div>
+
+        {/* Legend: positioned directly to the right of the above block */}
+        <div
+          style={{
+            position: "absolute",
+            left: "100%",
+            marginLeft: "30px",
+            top: "20%",
+            transform: "translateY(-50%)",
+          }}
+        >
+          <Legend
+            legendGenders={["You", ...legendGenders]}
+            showingOtherUsers={showingOtherUsers}
+          />
         </div>
       </div>
     </div>
