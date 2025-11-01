@@ -68,7 +68,6 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
         </LabeledPlaneWrapper>
       </div>
 
-      {/* Inputs BELOW the entire labeled plane */}
       <div
         style={{
           width: width,

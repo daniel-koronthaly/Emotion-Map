@@ -69,9 +69,9 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
   return (
     <div
       style={{
-        position: "relative",
         display: "flex",
         justifyContent: "center",
+        alignItems: "flex-start", // top-align the legend with the plane column
       }}
     >
       {/* This is the centered content wrapper */}
@@ -137,9 +137,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
           style={{
             position: "absolute",
             left: "100%",
-            marginLeft: "30px",
-            top: "31%",
-            transform: "translateY(-50%)",
+            top: "8%",
           }}
         >
           <Legend

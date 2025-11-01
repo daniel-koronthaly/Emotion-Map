@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from "./styles/Theme.module.css"
 import ExportToCsv from "./components/body/ExportToCsv";
 import About from "./components/body/About";
+import Footer from "./components/footer/Footer"
 
 const useFakeDataForTestingPurposes = false
 
@@ -116,10 +117,25 @@ function App() {
     };
 
     return (
-        <div className={styles.backgroundColor} style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div className={styles.backgroundColor} style={{
+            textAlign: 'justify',
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+        }}>
             <Header currentPage={currentPage} setCurrentPage={setCurrentPage} isDemographicSubmitted={isDemographicSubmitted} />
-            <div style={{ flex: 1, position: "relative", width: "100%", overflow: "hidden" }}>
-                <div style={{ maxWidth: "600px", marginLeft: "20px", padding: "10px" }}>
+            <div style={{
+                flex: 1,
+                position: "relative",
+                display: "flex",
+                justifyContent: "center",
+                paddingBottom: "60px",
+            }}>
+                <div style={{
+                    maxWidth: "600px",
+                    width: "100%",
+                    position: "relative",
+                }}>
                     <AnimatePresence mode="wait">
                         {currentPage === "Welcome" && (
                             <motion.div
@@ -129,7 +145,7 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
                                 <WelcomePage setCurrentPage={setCurrentPage} />
                             </motion.div>
@@ -143,10 +159,10 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
-                                <Explanation setCurrentPage={setCurrentPage} 
-                                isDemographicSubmitted={isDemographicSubmitted} />
+                                <Explanation setCurrentPage={setCurrentPage}
+                                    isDemographicSubmitted={isDemographicSubmitted} />
                             </motion.div>
                         )}
 
@@ -158,7 +174,7 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
                                 <DemographicsForm onSubmit={handleDemographicsSubmit} />
                             </motion.div>
@@ -172,7 +188,7 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
                                 <MainPage
                                     emotion={shuffledEmotions[currentEmotion]}
@@ -190,7 +206,7 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
                                 <ExportToCsv />
                             </motion.div>
@@ -204,7 +220,7 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
                                 <About />
                             </motion.div>
@@ -218,7 +234,7 @@ function App() {
                                 animate="animate"
                                 exit="exit"
                                 transition={pageTransition}
-                                style={{ position: "absolute", width: "100%" }}
+                                style={{ position: "absolute", left: 0, right: 0 }}
                             >
                                 <h1>Thank you for participating!</h1>
                             </motion.div>

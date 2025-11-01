@@ -1,0 +1,4 @@
+.footer {
+    background-color: #1c2028;
+    backdrop-filter: blur(12px) saturate(180%);
+}

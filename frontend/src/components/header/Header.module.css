@@ -7,6 +7,7 @@
     background-color: #1c2028;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(12px) saturate(180%);
+    font-family: "Momo Trust Display", sans-serif;
 }
 
 .nav {
@@ -15,7 +16,7 @@
 }
 
 .button {
-    background-color: #008192;
+    background-color: #262b37;
     color: #ffffff;
     border: none;
     border-radius: 16px;
@@ -27,11 +28,11 @@
 }
 
 .button:hover {
-    background-color: #10b4ca;
+    background-color: #313745;
 }
 
 .active {
-    background-color: #10b4ca;
+    background-color: #464f64;
     /* box-shadow: 5px 5px 5px rgba(255, 255, 255, 0.3); */
     color: white;
 }
