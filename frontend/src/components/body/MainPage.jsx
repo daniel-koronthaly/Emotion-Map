@@ -122,7 +122,6 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
               borderRadius: 15,
               fontSize: "14px",
               fontWeight: 600,
-              marginTop: "10px",
               transition: "background-color 0.2s, transform 0.1s"
             }}
             onMouseEnter={handleMouseEnter}
@@ -139,7 +138,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
             position: "absolute",
             left: "100%",
             marginLeft: "30px",
-            top: "20%",
+            top: "31%",
             transform: "translateY(-50%)",
           }}
         >

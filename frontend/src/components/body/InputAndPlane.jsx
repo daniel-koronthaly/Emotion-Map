@@ -74,7 +74,8 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
           width: width,
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: "40px",
+          marginTop: "8px",
+          marginBottom: "25px",
           display: "flex",
           gap: "8px",
         }}

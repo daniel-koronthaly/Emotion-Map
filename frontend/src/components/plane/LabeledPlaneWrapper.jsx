@@ -15,8 +15,12 @@ export default function LabeledPlaneWrapper({
   width = 400,
   height = 400, // keep symmetric if you want square; still supported
   children,
+  xLabelMin = "Negative",
+  xLabelMax = "Positive",
   xLabelBottom = "Valence",
   xLabelTop = null,
+  yLabelMin = "Weak",
+  yLabelMax = "Strong",
   yLabelLeft = "Arousal",
   yLabelRight = null,
   labelSpacing = 12,
@@ -63,41 +67,91 @@ export default function LabeledPlaneWrapper({
           </div>
         ) : null}
 
-        {/* Bottom X label (below the plane) */}
-        {xLabelBottom ? (
-          <div
-            className={`axis-label axis-label-x-bottom ${labelClassName}`}
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "100%",
-              marginTop: labelSpacing-8,
-              transform: "translateX(-50%)",
-              pointerEvents: "none",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {xLabelBottom}
-          </div>
+        {/* X-axis labels */}
+        {xLabelBottom || xLabelMin || xLabelMax ? (
+          <>
+            {/* Center label */}
+            {xLabelBottom && (
+              <div
+                className={`axis-label axis-label-x-center ${labelClassName}`}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "100%",
+                  marginTop: labelSpacing,
+                  transform: "translateX(-50%)",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                }}
+              >
+                {xLabelBottom}
+              </div>
+            )}
+
+            {/* Min label */}
+            {xLabelMin && (
+              <div
+                className={`axis-label axis-label-x-min ${labelClassName}`}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: "100%",
+                  marginTop: labelSpacing,
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                }}
+              >
+                {xLabelMin}
+              </div>
+            )}
+
+            {/* Max label */}
+            {xLabelMax && (
+              <div
+                className={`axis-label axis-label-x-max ${labelClassName}`}
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "100%",
+                  marginTop: labelSpacing,
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  textAlign: "right",
+                }}
+              >
+                {xLabelMax}
+              </div>
+            )}
+          </>
         ) : null}
 
-        {/* Left Y label (to the left of the plane) */}
-        {yLabelLeft ? (
-          <div
-            className={`axis-label axis-label-y-left ${labelClassName}`}
-            style={{
-              position: "absolute",
-              left: -labelSpacing - 30,
-              top: "50%",
-              transform: "translateY(-50%) rotate(-90deg)",
-              transformOrigin: "center",
-              pointerEvents: "none",
-              whiteSpace: "nowrap",
-            }}
-          >
+        <div
+          style={{
+            position: "absolute",
+            left: -labelSpacing - 30,
+            top: 0,
+            height: height,
+            width: 50,
+            pointerEvents: "none",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ transform: "rotate(-90deg)", transformOrigin: "center", marginTop: 12 }}>
+            {yLabelMax}
+          </div>
+
+          <div style={{ transform: "rotate(-90deg)", transformOrigin: "center" }}>
             {yLabelLeft}
           </div>
-        ) : null}
+
+          <div style={{ transform: "rotate(-90deg)", transformOrigin: "center", marginBottom: 6 }}>
+            {yLabelMin}
+          </div>
+        </div>
+
 
         {/* Right Y label (to the right of the plane) */}
         {yLabelRight ? (
@@ -106,7 +160,7 @@ export default function LabeledPlaneWrapper({
             style={{
               position: "absolute",
               left: "100%",
-              marginLeft: labelSpacing-16,
+              marginLeft: labelSpacing - 16,
               top: "50%",
               transform: "translateY(-50%) rotate(90deg)",
               transformOrigin: "center",

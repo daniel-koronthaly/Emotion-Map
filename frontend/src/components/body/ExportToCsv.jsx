@@ -1,6 +1,10 @@
+import React, { useState } from "react";
 import axios from "axios";
 
 const ExportToCsv = () => {
+    const [isHovered, setIsHovered] = useState(false);
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
     const downloadCSV = async () => {
         try {
             const response = await axios.get("http://localhost:8000/export/all-data", {
@@ -30,7 +34,25 @@ const ExportToCsv = () => {
             <p>
                 If you would like to download the dataset that is being created by using this website, click below.
             </p>
-            <button onClick={downloadCSV}>Download CSV</button>
+            <button
+                style={{
+                    backgroundColor: isHovered ? "#00a0b8" : "#008192",
+                    color: "white",
+                    width: 200,
+                    height: 40,
+                    borderWidth: 0,
+                    borderRadius: 15,
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    marginTop: "10px",
+                    transition: "background-color 0.2s, transform 0.1s"
+                }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={downloadCSV}
+            >
+                Download CSV
+            </button>
         </div>
     );
 };
