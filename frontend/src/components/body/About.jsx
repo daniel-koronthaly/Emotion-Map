@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
 const About = () => {
     const [isHovered, setIsHovered] = useState(false);
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
     const downloadResume = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/export/resume", {
+            const response = await axios.get(`${API_URL}/export/resume`, {
                 responseType: "blob",
             });
 

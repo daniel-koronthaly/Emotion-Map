@@ -14,6 +14,7 @@ import ExportToCsv from "./components/body/ExportToCsv";
 import About from "./components/body/About";
 
 const useFakeDataForTestingPurposes = false
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function App() {
     const sessionId = useRef(uuidv4()).current;
@@ -31,7 +32,7 @@ function App() {
             setEmotionUserResponseList(fakeData)
         }
         else {
-            fetch("http://localhost:8000/emotions/" + shuffledEmotions[currentEmotion])
+            fetch(`${API_URL}/emotions/` + shuffledEmotions[currentEmotion])
                 .then(res => res.json())
                 .then(data => setEmotionUserResponseList(data))
                 .catch(err => {
@@ -67,7 +68,7 @@ function App() {
         }
         setCurrentPage("MainPage");
         try {
-            const response = await axios.post("http://localhost:8000/demographics/", payload);
+            const response = await axios.post(`${API_URL}/demographics/`, payload);
             setIsDemographicSubmitted(true)
             console.log("Response from FastAPI:", response.data);
         }
@@ -95,7 +96,7 @@ function App() {
             arousal
         }
         try {
-            const response = await axios.post("http://localhost:8000/emotions/", payload);
+            const response = await axios.post(`${API_URL}/emotions/`, payload);
             console.log("Response from FastAPI:", response.data);
         }
         catch (err) {
