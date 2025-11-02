@@ -3,10 +3,10 @@ FROM node:20
 
 WORKDIR /app
 
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm install
 
-COPY frontend/ .
+COPY . .
 
 # Build the React app for production
 RUN npm run build
