@@ -12,7 +12,6 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from "./styles/Theme.module.css"
 import ExportToCsv from "./components/body/ExportToCsv";
 import About from "./components/body/About";
-import Footer from "./components/footer/Footer"
 
 const useFakeDataForTestingPurposes = false
 

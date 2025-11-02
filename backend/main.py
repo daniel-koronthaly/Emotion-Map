@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import emotions, demographics, export
-from sqlmodel import Session, select, create_engine
 from contextlib import asynccontextmanager
 import models
 from database import create_db_and_tables
+import os
+from dotenv import load_dotenv
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,6 +14,8 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+
+origins = [os.getenv("FRONTEND_ORIGIN")]
 
 app.add_middleware(
     CORSMiddleware,

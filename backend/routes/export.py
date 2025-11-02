@@ -13,3 +13,11 @@ def download_all_data(session: SessionDep):
     """
     csv_path = export_all_data_to_csv(session, "all_data.csv")  # generate CSV
     return FileResponse(csv_path, media_type="text/csv", filename="all_data.csv")
+
+@router.get("/resume")
+def download_resume(session: SessionDep):
+    """
+    Generate a CSV of all demographics and emotions and return it as a download.
+    """
+    resume_path = "resume.pdf"
+    return FileResponse(resume_path, media_type="pdf", filename="Daniel Koronthaly Resume.pdf")
