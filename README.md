@@ -17,6 +17,7 @@ I was never fully convinced of its usefulness, so I created this website for sev
 * **Backend:** FastAPI, SQLModel, SQLite
 * **Frontend:** React
 * **Animations & UI:** Framer Motion
+* **Deployment:** Docker
 
 ---
 
