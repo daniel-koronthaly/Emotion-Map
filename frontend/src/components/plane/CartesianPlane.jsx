@@ -129,18 +129,18 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
         <>
           {/* Glow */}
           <motion.circle
-            cx={svgX}
-            cy={svgY}
+            cx={svgX ?? 0}
+            cy={svgY ?? 0}
             r={isDraggingRed ? 10 : 7}
             fill="red"
             stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : "transparent"}
             strokeWidth={isDraggingRed ? 15 : 0}
-            initial={{ r: 0, opacity: 0 }}
+            initial={{ r: 0, opacity: 0, cx: 0, cy: 0 }}
             animate={{
               r: isDraggingRed ? 10 : 7,
               opacity: 1,
-              cx: svgX,
-              cy: svgY,
+              cx: svgX ?? 0,
+              cy: svgY ?? 0,
             }}
             exit={{ r: 0, opacity: 0 }}
             transition={{
@@ -152,14 +152,17 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
           />
           {/* Black border circle */}
           <motion.circle
+            cx={svgX ?? 0}
+            cy={svgY ?? 0}
             r={isDraggingRed ? 10 : 7}
             fill="transparent"
             stroke="black"
             strokeWidth={1.2}
+            initial={{ r: 0, opacity: 0, cx: 0, cy: 0 }}
             animate={{
               r: isDraggingRed ? 10 : 7,
-              cx: svgX,
-              cy: svgY,
+              cx: svgX ?? 0,
+              cy: svgY ?? 0,
             }}
             transition={{
               r: { type: "spring", stiffness: 200, damping: 20 },
@@ -167,11 +170,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
               cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
             }}
           />
-
-
-
         </>
-
       </svg>
     </div>
   );

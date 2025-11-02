@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import InputAndPlane from "./InputAndPlane";
 import Legend from "../plane/Legend";
 import { AnimatedText } from "../helpers/AnimatedText";
+import { throttle } from "lodash";
 
 const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
   const [point, setPoint] = useState({ x: 0, y: 0 });
   const [extraPoints, setExtraPoints] = useState([]);
   const [legendGenders, setLegendGenders] = useState([]);
 
-  const movePoint = (x, y) => {
+  const movePointRef = useRef(null);
+
+  movePointRef.current = (x, y) => {
     if (!showingOtherUsers) {
-      setPoint(x, y)
+      setPoint(x, y); // keep exact same object shape
     }
-  }
+  };
+
+  // throttle wrapper
+  const movePointThrottled = useRef(
+    throttle((x, y) => {
+      movePointRef.current(x, y);
+    }, 16) // 16ms ~ 60fps
+  ).current;
 
   const [showingOtherUsers, setShowingOtherUsers] = useState(false)
 
@@ -108,7 +118,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
           <InputAndPlane
             width={500}
             point={point}
-            setPoint={movePoint}
+            setPoint={movePointThrottled}
             extraPoints={extraPoints}
             showingOtherUsers={showingOtherUsers}
           />
