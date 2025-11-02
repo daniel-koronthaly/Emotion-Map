@@ -13,7 +13,7 @@ import styles from "./styles/Theme.module.css"
 import ExportToCsv from "./components/body/ExportToCsv";
 import About from "./components/body/About";
 
-const useFakeDataForTestingPurposes = true
+const useFakeDataForTestingPurposes = false
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function App() {
