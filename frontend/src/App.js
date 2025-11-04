@@ -89,7 +89,10 @@ function App() {
             setCurrentPage("Demographics");
             return
         }
-
+        if (emotion == null || valence == null || arousal == null) {
+            console.log("Do not submit null data.")
+            return
+        }
         const payload = {
             session_id: sessionId,
             emotion,

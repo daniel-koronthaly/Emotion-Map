@@ -23,12 +23,12 @@ const Point = ({ x, y, size = 7, gender, age }) => {
       <motion.circle
         cx={x}
         cy={y}
-        r={size}
+        r={Math.max(0, size)}
         fill={color}
         stroke={glowColor}
         strokeWidth={0}
         initial={{ r: 0, opacity: 0, strokeWidth: 0 }}
-        animate={{ r: size, opacity: 1, strokeWidth: [0, 15, 0] }}
+        animate={{ r: Math.max(0, size), opacity: 1, strokeWidth: [0, 15, 0] }}
         exit={{ r: 0, opacity: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       />
@@ -165,7 +165,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
             }}
             exit={{ r: 0, opacity: 0 }}
             transition={{
-              r: { type: "spring", stiffness: 200, damping: 20 },
+              r: { duration: 0.1, ease: "easeInOut" },
               cx: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
               cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
               opacity: { duration: 0.3 },
@@ -186,7 +186,7 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
               cy: svgY ?? 0,
             }}
             transition={{
-              r: { type: "spring", stiffness: 200, damping: 20 },
+              r: { duration: 0.1, ease: "easeInOut" },
               cx: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
               cy: showingOtherUsers ? { type: "spring", stiffness: 200, damping: 20 } : { duration: 0 },
             }}

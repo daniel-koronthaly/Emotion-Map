@@ -58,7 +58,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
     } else {
       onSubmit(emotion, point.x, point.y)
       if (emotionUserList.length === 0) {
-        console.log("Emotion user list is empty")
+        setLegendGenders([])
       }
       else {
         const { points, genders } = processEmotionData(emotionUserList);
