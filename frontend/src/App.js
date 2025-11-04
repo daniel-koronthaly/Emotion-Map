@@ -69,9 +69,9 @@ function App() {
         }
         setCurrentPage("MainPage");
         try {
-            const response = await axios.post(`${API_URL}/demographics/`, payload);
+            axios.post(`${API_URL}/demographics/`, payload);
             setIsDemographicSubmitted(true)
-            console.log("Response from FastAPI:", response.data);
+            // console.log("Response from FastAPI:", response.data);
         }
         catch (err) {
             console.error("Error posting demographic:", err);
@@ -97,8 +97,8 @@ function App() {
             arousal
         }
         try {
-            const response = await axios.post(`${API_URL}/emotions/`, payload);
-            console.log("Response from FastAPI:", response.data);
+            axios.post(`${API_URL}/emotions/`, payload);
+            // console.log("Response from FastAPI:", response.data);
         }
         catch (err) {
             console.error("Error posting emotion:", err);

@@ -37,12 +37,12 @@ const Point = ({ x, y, size = 7, gender, age }) => {
       <motion.circle
         cx={x}
         cy={y}
-        r={size}
+        r={Math.max(0, size)}
         fill="transparent"
         stroke="black"
         strokeWidth={1.2}
         initial={{ r: 0, opacity: 0, strokeWidth: 0 }}
-        animate={{ r: size, opacity: 1, strokeWidth: [0, 1.2] }}
+        animate={{ r: Math.max(0, size), opacity: 1, strokeWidth: [0, 1.2] }}
         exit={{ r: 0, opacity: 0 }}
       />
     </>
@@ -152,13 +152,13 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
           <motion.circle
             cx={svgX ?? 0}
             cy={svgY ?? 0}
-            r={isDraggingRed ? 10 : 7}
+            r={Math.max(0, isDraggingRed ? 10 : 7)}
             fill="red"
             stroke={isDraggingRed ? "rgba(255,0,0,0.6)" : "transparent"}
             strokeWidth={isDraggingRed ? 15 : 0}
             initial={{ r: 0, opacity: 0, cx: 0, cy: 0 }}
             animate={{
-              r: isDraggingRed ? 10 : 7,
+              r: Math.max(0, isDraggingRed ? 10 : 7),
               opacity: 1,
               cx: svgX ?? 0,
               cy: svgY ?? 0,
@@ -175,13 +175,13 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
           <motion.circle
             cx={svgX ?? 0}
             cy={svgY ?? 0}
-            r={isDraggingRed ? 10 : 7}
+            r={Math.max(0, isDraggingRed ? 10 : 7)}
             fill="transparent"
             stroke="black"
             strokeWidth={1.2}
-            initial={{ r: 0, opacity: 0, cx: 0, cy: 0 }}
+            initial={{ r: 0, cx: 0, cy: 0 }}
             animate={{
-              r: isDraggingRed ? 10 : 7,
+              r: Math.max(0, isDraggingRed ? 10 : 7),
               cx: svgX ?? 0,
               cy: svgY ?? 0,
             }}
