@@ -128,9 +128,11 @@ function App() {
             <div style={{
                 flex: 1,
                 position: "relative",
+                width: "100%",
                 display: "flex",
                 justifyContent: "center",
-                paddingBottom: "60px",
+                padding: "1rem",
+                boxSizing: "border-box",
             }}>
                 <div style={{
                     maxWidth: "600px",
