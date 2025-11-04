@@ -3,6 +3,7 @@ import CartesianPlane from "../plane/CartesianPlane";
 import LabeledPlaneWrapper from "../plane/LabeledPlaneWrapper";
 
 function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers }) {
+  const maxWidth = window.innerWidth < 600 ? 300 : 500;
   const [tempX, setTempX] = useState(point.x.toFixed(2));
   const [tempY, setTempY] = useState(point.y.toFixed(2));
 
@@ -42,24 +43,25 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
   return (
     <div
       style={{
+        width: '100%',
+        maxWidth: maxWidth,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: 600,
         gap: "10px",
       }}
     >
       <div style={{ position: "relative", display: "inline-block" }}>
         <LabeledPlaneWrapper
-          width={width}
-          height={width}
+          width={maxWidth}
+          height={maxWidth}
           xLabelBottom="Valence"
           yLabelLeft="Arousal"
           labelSpacing={12}
         >
           <CartesianPlane
-            size={width}
+            size={maxWidth}
             point={point}
             setPoint={setPoint}
             extraPoints={extraPoints}
@@ -70,7 +72,7 @@ function InputAndPlane({ width, point, setPoint, extraPoints, showingOtherUsers 
 
       <div
         style={{
-          width: width,
+          width: maxWidth,
           alignItems: "center",
           justifyContent: "center",
           marginTop: "8px",

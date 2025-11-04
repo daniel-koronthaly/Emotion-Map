@@ -133,6 +133,7 @@ function App() {
                 justifyContent: "center",
                 padding: "1rem",
                 boxSizing: "border-box",
+                overflowX: 'hidden'
             }}>
                 <div style={{
                     maxWidth: "600px",
@@ -169,7 +170,7 @@ function App() {
                             </motion.div>
                         )}
 
-                        {currentPage === "Demographics" && (
+                        {currentPage === "MainPage" && (
                             <motion.div
                                 key="demographics"
                                 variants={pageVariants}
@@ -183,7 +184,7 @@ function App() {
                             </motion.div>
                         )}
 
-                        {currentPage === "MainPage" && (
+                        {currentPage === "Demographics" && (
                             <motion.div
                                 key="body"
                                 variants={pageVariants}

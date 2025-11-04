@@ -11,6 +11,7 @@ export function AnimatedText({ flag, delay, children }) {
         transition={{ duration: 0.3, ease: "easeOut", delay: delay }}
         style={{
           marginTop: -40,
+          minHeight: 40,
           textAlign: "center",
           whiteSpace: "normal", // ensures wrapping
           display: "inline-block", // allows animation without column behavior

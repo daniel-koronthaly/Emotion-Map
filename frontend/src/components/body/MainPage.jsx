@@ -76,6 +76,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
   const baseColor = showingOtherUsers ? "#506b6e" : "#008192";
   const hoverColor = showingOtherUsers ? "#688b8e" : "#00a0b8";
 
+  const width = window.innerWidth < 600 ? 300 : 500;
   return (
     <div
       style={{
@@ -94,19 +95,24 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
             alignItems: "center",
           }}
         >
-          <h2 style={{ textAlign: "center" }}>
-            Current emotion:{" "}
+          <h2 style={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: width <= 300 ? "column" : "row",
+            alignItems: width <= 300 ? "center" : "baseline",
+            justifyContent: "center"
+          }}>
+            <span style={{ marginRight: width <= 300 ? 0 : 8 }}>Current emotion:</span>
             <span
               style={{
                 display: "inline-block",
                 minWidth: "120px",
-                verticalAlign: "baseline",
-                fontSize: 40
+                fontSize: 40,
+                textAlign: "center",
+                marginTop: width <= 300 ? 8 : 0
               }}
             >
-              <AnimatedText
-                style={{ display: "inline-block" }}
-              >
+              <AnimatedText style={{ display: "inline-block" }}>
                 {emotion}
               </AnimatedText>
             </span>
@@ -116,7 +122,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
             : "This is what other users said!"}
           </AnimatedText>
           <InputAndPlane
-            width={500}
+            width={width}
             point={point}
             setPoint={movePointThrottled}
             extraPoints={extraPoints}
@@ -126,7 +132,7 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
             style={{
               backgroundColor: isHovered ? hoverColor : baseColor,
               color: "white",
-              width: 500,
+              width: width,
               height: 40,
               borderWidth: 0,
               borderRadius: 15,
@@ -143,18 +149,19 @@ const MainPage = ({ emotion, emotionUserList, onSubmit, nextEmotion }) => {
         </div>
 
         {/* Legend: positioned directly to the right of the above block */}
-        <div
+        {width > 300 && <div
           style={{
             position: "absolute",
             left: "100%",
-            top: "8%",
+            top: "10%",
+            marginLeft: 40
           }}
         >
           <Legend
             legendGenders={["You", ...legendGenders]}
             showingOtherUsers={showingOtherUsers}
           />
-        </div>
+        </div>}
       </div>
     </div>
   );

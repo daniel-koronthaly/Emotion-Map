@@ -68,30 +68,45 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
 
   const startDragging = (e) => {
     if (showingOtherUsers) return; // Don't allow dragging if we're showing other users.
-    if (e.button !== 0) return; // left-click only
+    if (!e.touches && e.button !== 0) return;
 
     setIsDraggingRed(true);
 
-    const handleMouseMove = (moveEvent) => {
+    const getClientXY = (event) => {
+      if (event.touches && event.touches.length > 0) {
+        return { clientX: event.touches[0].clientX, clientY: event.touches[0].clientY };
+      } else {
+        return { clientX: event.clientX, clientY: event.clientY };
+      }
+    };
+
+    const handleMove = (moveEvent) => {
+      moveEvent.preventDefault(); // prevent scrolling
       const rect = svgRef.current.getBoundingClientRect();
-      const svgX = moveEvent.clientX - rect.left;
-      const svgY = moveEvent.clientY - rect.top;
+      const { clientX, clientY } = getClientXY(moveEvent);
+      const svgX = clientX - rect.left;
+      const svgY = clientY - rect.top;
       setPoint(svgToCartesian(svgX, svgY));
     };
 
-    const handleMouseUp = () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+    const handleEnd = () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("touchmove", handleMove);
+      window.removeEventListener("touchend", handleEnd);
       setIsDraggingRed(false);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleEnd);
+    window.addEventListener("touchmove", handleMove, { passive: false });
+    window.addEventListener("touchend", handleEnd);
 
-    // Immediate move for first click
+    // Immediate move for first click/tap
     const rect = svgRef.current.getBoundingClientRect();
-    const svgX = e.clientX - rect.left;
-    const svgY = e.clientY - rect.top;
+    const { clientX, clientY } = getClientXY(e);
+    const svgX = clientX - rect.left;
+    const svgY = clientY - rect.top;
     setPoint(svgToCartesian(svgX, svgY));
   };
 
@@ -104,14 +119,20 @@ const CartesianPlane = ({ size = 400, point, setPoint, extraPoints = [], showing
     <div
       onContextMenu={preventContextMenu}
       onMouseDown={preventRightClick}
-      style={{ userSelect: "none" }}
+      style={{ userSelect: "none", width: "90%", maxWidth: 500, aspectRatio: "1 / 1" }}
     >
       <svg
         ref={svgRef}
         width={size}
         height={size}
-        style={{ border: "2px solid white", backgroundColor: '#1b1d22ff', cursor: isDraggingRed ? "grabbing" : "default" }}
+        style={{
+          border: "2px solid white",
+          backgroundColor: '#1b1d22ff',
+          touchAction: "none",
+          cursor: isDraggingRed ? "grabbing" : "default"
+        }}
         onMouseDown={startDragging}
+        onTouchStart={startDragging}
       >
         {/* Axes */}
         <line x1={0} y1={size / 2} x2={size} y2={size / 2} stroke="#b6bccaff" />
