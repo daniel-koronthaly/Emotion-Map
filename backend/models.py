@@ -4,7 +4,6 @@
 from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime, timezone
 from enums import AgeOptions, GenderOptions, SexualityOptions, TransgenderOptions
-from typing import ClassVar
 
 # One per session_id
 class DemographicResponse(SQLModel, table=True):

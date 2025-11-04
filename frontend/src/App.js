@@ -170,7 +170,7 @@ function App() {
                             </motion.div>
                         )}
 
-                        {currentPage === "MainPage" && (
+                        {currentPage === "Demographics" && (
                             <motion.div
                                 key="demographics"
                                 variants={pageVariants}
@@ -184,7 +184,7 @@ function App() {
                             </motion.div>
                         )}
 
-                        {currentPage === "Demographics" && (
+                        {currentPage === "MainPage" && (
                             <motion.div
                                 key="body"
                                 variants={pageVariants}
