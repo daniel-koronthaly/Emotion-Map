@@ -82,7 +82,8 @@
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 10px 20px;
+    padding: 14px 24px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
 }

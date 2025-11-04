@@ -72,10 +72,10 @@ const Header = ({ currentPage, setCurrentPage, isDemographicSubmitted }) => {
               {b.label}
             </button>
           ))}
-          <IconButton onClick={() => handleNavClick("ExportToCsv")} active={currentPage === "ExportToCsv"}>
+          <IconButton className={styles.mobileButton} onClick={() => handleNavClick("ExportToCsv")} active={currentPage === "ExportToCsv"}>
             <FaFileCsv size={20} />
           </IconButton>
-          <IconButton onClick={() => window.open("https://github.com/daniel-koronthaly/Emotion-Map/", "_blank")}>
+          <IconButton className={styles.mobileButton} onClick={() => window.open("https://github.com/daniel-koronthaly/Emotion-Map/", "_blank")}>
             <FaGithub size={20} />
           </IconButton>
         </div>
